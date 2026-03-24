@@ -675,7 +675,7 @@ foreach ($c in $sortedConns) {
     $rowsHtml += "<td class=`"addr`"><span class=`"copyip`" onclick=`"cpIp(this,'$safeRemote')`" title=`"Click to copy`">$safeRemote</span><span class=`"port`">:$portStr</span>$portLabelHtml</td>`n"
     $rowsHtml += "<td class=`"geo`">$geoHtml</td>`n"
     $parentHtml = if ($safeParentExe) { "<div class=`"par`">via $safeParentExe</div>" } else { "" }
-    $rowsHtml += "<td class=`"proc`" title=`"$procTip`"><div class=`"proc-top`"><span class=`"pn`">$safeProc</span><span class=`"pid`">$($c.PID)</span></div><div class=`"pp`">$safePathDisplay</div>$parentHtml</td>`n"
+    $rowsHtml += "<td class=`"proc`" title=`"$procTip`"><div class=`"proc-top`"><span class=`"pn cpn`" onclick=`"filterByProc('$safeProc')`" title=`"Click to filter by process`">$safeProc</span><span class=`"pid`">$($c.PID)</span></div><div class=`"pp`">$safePathDisplay</div>$parentHtml</td>`n"
     $rowsHtml += "</tr>`n"
     $idx++
 }
@@ -873,7 +873,8 @@ td{padding:9px 12px;vertical-align:middle}
 .port{color:var(--yw);margin-left:1px}
 .geo{font-size:11px;line-height:1.6;min-width:130px}
 .flag{display:inline-block;font-size:9px;background:rgba(255,255,255,.1);padding:1px 5px;border-radius:2px;color:#ccc;letter-spacing:1px;font-weight:600}
-.copyip{cursor:pointer;border-bottom:1px dashed rgba(42,159,255,.4);transition:color .1s}
+.cpn{cursor:pointer;border-bottom:1px dashed rgba(212,228,244,.25);transition:color .1s}
+.cpn:hover{color:var(--ac)}
 .copyip:hover{color:var(--gr)}
 .copy-toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--gr);color:var(--gr);padding:8px 18px;border-radius:4px;font-size:11px;letter-spacing:1px;opacity:0;transition:opacity .2s;z-index:9999;pointer-events:none}
 .geo-unk{color:var(--bd2);font-size:13px}
@@ -1137,6 +1138,12 @@ function exportCsv(){
   a.download='ZavetSec-NetworkConnections_export.csv';
   a.click();
   URL.revokeObjectURL(a.href);
+}
+function filterByProc(name){
+  var inp=document.getElementById('ci');
+  inp.value=name;
+  cft();
+  inp.focus();
 }
 function cpIp(el,ip){
   navigator.clipboard.writeText(ip).catch(function(){
