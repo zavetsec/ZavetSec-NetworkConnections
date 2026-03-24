@@ -134,6 +134,8 @@ Get-Help .\ZavetSec-NetworkConnections.ps1 -Full
 ```
 
 > Without arguments the report is saved next to the script as `NC_<HOSTNAME>_<TIMESTAMP>.html`
+>
+> <img width="948" height="462" alt="image" src="https://github.com/user-attachments/assets/d7acb536-e639-421b-821d-8ddfbec84117" />
 
 ---
 
