@@ -32,6 +32,9 @@ One command. Full network picture. Analyst-ready HTML report.
 - ARP cache, network adapters, routing context
 - Zero installation — single `.ps1`, PowerShell 5.1, any Windows endpoint
 
+> **No agent. No install. No persistence. Just signal.**
+> Works when EDR visibility is limited, unavailable, or untrusted.
+
 ---
 
 ## Audience
