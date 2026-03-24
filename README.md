@@ -31,6 +31,7 @@ One command. Full network picture. Analyst-ready HTML report.
 - DNS cache snapshot with entropy scoring for DGA and DNS tunnel detection
 - ARP cache, network adapters, routing context
 - Zero installation — single `.ps1`, PowerShell 5.1, any Windows endpoint
+- Timeline-ready CSV output for SIEM and DFIR tooling
 
 > **No agent. No install. No persistence. Just signal.**
 > Works when EDR visibility is limited, unavailable, or untrusted.
