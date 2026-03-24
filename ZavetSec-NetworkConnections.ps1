@@ -672,7 +672,7 @@ foreach ($c in $sortedConns) {
     $rowsHtml += "<td>$riskBadge</td>`n"
     $rowsHtml += "<td><span class=`"proto-$($c.Proto.ToLower())`">$($c.Proto)</span><span class=`"st-sep`">&#183;</span><span class=`"$stateClass`">$($c.State)</span></td>`n"
     $rowsHtml += "<td class=`"addr`">$safeLocal<span class=`"port`">:$($c.LocalPort)</span></td>`n"
-    $rowsHtml += "<td class=`"addr`">$safeRemote<span class=`"port`">:$portStr</span>$portLabelHtml</td>`n"
+    $rowsHtml += "<td class=`"addr`"><span class=`"copyip`" onclick=`"cpIp(this,'$safeRemote')`" title=`"Click to copy`">$safeRemote</span><span class=`"port`">:$portStr</span>$portLabelHtml</td>`n"
     $rowsHtml += "<td class=`"geo`">$geoHtml</td>`n"
     $parentHtml = if ($safeParentExe) { "<div class=`"par`">via $safeParentExe</div>" } else { "" }
     $rowsHtml += "<td class=`"proc`" title=`"$procTip`"><div class=`"proc-top`"><span class=`"pn`">$safeProc</span><span class=`"pid`">$($c.PID)</span></div><div class=`"pp`">$safePathDisplay</div>$parentHtml</td>`n"
@@ -873,7 +873,9 @@ td{padding:9px 12px;vertical-align:middle}
 .port{color:var(--yw);margin-left:1px}
 .geo{font-size:11px;line-height:1.6;min-width:130px}
 .flag{display:inline-block;font-size:9px;background:rgba(255,255,255,.1);padding:1px 5px;border-radius:2px;color:#ccc;letter-spacing:1px;font-weight:600}
-.geo-priv{font-size:10px;color:var(--mt)}
+.copyip{cursor:pointer;border-bottom:1px dashed rgba(42,159,255,.4);transition:color .1s}
+.copyip:hover{color:var(--gr)}
+.copy-toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--gr);color:var(--gr);padding:8px 18px;border-radius:4px;font-size:11px;letter-spacing:1px;opacity:0;transition:opacity .2s;z-index:9999;pointer-events:none}
 .geo-unk{color:var(--bd2);font-size:13px}
 .hb{display:inline-block;padding:1px 4px;border-radius:2px;font-size:8px;font-weight:700;background:rgba(255,136,0,.2);color:var(--or);border:1px solid rgba(255,136,0,.3);margin-left:3px}
 .proc{min-width:220px;max-width:320px}
@@ -902,6 +904,7 @@ td{padding:9px 12px;vertical-align:middle}
 </head>
 <body>
 <div class="wrap">
+<div class="copy-toast" id="ctst">Copied!</div>
 <header class="hdr">
   <div class="hdr-row">
     <div>
@@ -1134,6 +1137,14 @@ function exportCsv(){
   a.download='ZavetSec-NetworkConnections_export.csv';
   a.click();
   URL.revokeObjectURL(a.href);
+}
+function cpIp(el,ip){
+  navigator.clipboard.writeText(ip).catch(function(){
+    var t=document.createElement('textarea');t.value=ip;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);
+  });
+  var t=document.getElementById('ctst');
+  t.textContent='Copied: '+ip;t.style.opacity='1';
+  clearTimeout(t._tid);t._tid=setTimeout(function(){t.style.opacity='0';},1800);
 }
 function dft(){
   var q=document.getElementById('di').value.toLowerCase();
